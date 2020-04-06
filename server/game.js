@@ -3,36 +3,16 @@ let fs = require('fs')
 let readline = require('readline')
 
 // Load base words into an array
-let basewords = []
-var filename = './server/words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {basewords.push(line)})
+let basewords = JSON.parse(fs.readFileSync('./server/words/words.json')).words
 
 // Load NLSS words into an array
-let nlsswords = []
-filename = './server/nlss-words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {nlsswords.push(line)})
+let nlsswords = JSON.parse(fs.readFileSync('./server/words/nlss-words.json')).words
 
 // Load Duet words into an array
-let duetwords = []
-filename = './server/duet-words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {duetwords.push(line)})
+let duetwords = JSON.parse(fs.readFileSync('./server/words/duet-words.json')).words
 
 // Load Undercover words into an array
-let undercoverwords = []
-filename = './server/undercover-words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {undercoverwords.push(line)})
+let undercoverwords = JSON.parse(fs.readFileSync('./server/words/undercover-words.json')).words
 
 // Codenames Game
 class Game{
