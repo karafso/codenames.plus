@@ -7,34 +7,19 @@ const wordsPath = path.join(__dirname, 'words')
 
 // Load words into object
 const files = fs.readdirSync(wordsPath)
-const words = files.reduce( (map, file) => {
+const wordses = files.reduce( (map, file) => {
     jsonWords = JSON.parse(fs.readFileSync(path.join(wordsPath, file)))
     map[jsonWords.name] = jsonWords.words
     return map
   }, {} )
-
-// Load base words into an array
-let basewords = words.basewords;
-
-// Load NLSS words into an array
-let nlsswords = words.nlsswords;
-
-// Load Duet words into an array
-let duetwords = words.duetwords
-
-// Load Undercover words into an array
-let undercoverwords = words.undercoverwords;
 
 // Codenames Game
 class Game{
   constructor(){
     this.timerAmount = 61 // Default timer value
 
-    this.words = basewords  // Load default word pack
-    this.base = true
-    this.duet = false
-    this.undercover = false
-    this.nlss = false
+    this.wordPacks = ['base'] // Load default word pack
+    this.updateWordPool()
 
     this.init();
 
@@ -166,11 +151,7 @@ class Game{
   }
 
   updateWordPool(){
-    let pool = []
-    if (this.base) pool = pool.concat(basewords)
-    if (this.duet) pool = pool.concat(duetwords)
-    if (this.undercover) pool = pool.concat(undercoverwords)
-    if (this.nlss) pool = pool.concat(nlsswords)
+    let pool = this.wordPacks.reduce( (deck, pack) => deck.concat(wordses[pack]), [])
     this.words = pool
   }
 

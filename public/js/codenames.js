@@ -330,13 +330,13 @@ function updateTimerSlider(game, mode){
 
 // Update the pack toggle buttons
 function updatePacks(game){
-  if (game.base) buttonBasecards.className = 'enabled'
+  if (game.wordPacks.includes('base')) buttonBasecards.className = 'enabled'
   else buttonBasecards.className = ''
-  if (game.duet) buttonDuetcards.className = 'enabled'
+  if (game.wordPacks.includes('duet')) buttonDuetcards.className = 'enabled'
   else buttonDuetcards.className = ''
-  if (game.undercover) buttonUndercovercards.className = 'enabled'
+  if (game.wordPacks.includes('undercover')) buttonUndercovercards.className = 'enabled'
   else buttonUndercovercards.className = ''
-  if (game.nlss) buttonNLSScards.className = 'enabled'
+  if (game.wordPacks.includes('nlss')) buttonNLSScards.className = 'enabled'
   else buttonNLSScards.className = ''
   document.getElementById('word-pool').innerHTML = "Word Pool: " + game.words.length
 }
