@@ -1,18 +1,29 @@
 
-let fs = require('fs')
-let readline = require('readline')
+const fs = require('fs')
+const path = require('path')
+
+// Specify where we store our word files
+const wordsPath = path.join(__dirname, 'words')
+
+// Load words into object
+const files = fs.readdirSync(wordsPath)
+const words = files.reduce( (map, file) => {
+    jsonWords = JSON.parse(fs.readFileSync(path.join(wordsPath, file)))
+    map[jsonWords.name] = jsonWords.words
+    return map
+  }, {} )
 
 // Load base words into an array
-let basewords = JSON.parse(fs.readFileSync('./server/words/words.json')).words
+let basewords = words.basewords;
 
 // Load NLSS words into an array
-let nlsswords = JSON.parse(fs.readFileSync('./server/words/nlss-words.json')).words
+let nlsswords = words.nlsswords;
 
 // Load Duet words into an array
-let duetwords = JSON.parse(fs.readFileSync('./server/words/duet-words.json')).words
+let duetwords = words.duetwords
 
 // Load Undercover words into an array
-let undercoverwords = JSON.parse(fs.readFileSync('./server/words/undercover-words.json')).words
+let undercoverwords = words.undercoverwords;
 
 // Codenames Game
 class Game{
