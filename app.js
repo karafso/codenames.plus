@@ -204,10 +204,10 @@ io.sockets.on('connection', function(socket){
     if (!PLAYER_LIST[socket.id]) return // Prevent Crash
     let room = PLAYER_LIST[socket.id].room  // Get the room the client was in
     let game = ROOM_LIST[room].game
-    game.wordPacks = game.wordPacks.includes(data.pack) ? game.wordPacks.filter(x => x !== data.pack) : game.wordPacks.concat(data.pack)
-    // If all options are disabled, re-enable the base pack
-    if (!game.wordPacks.length) game.wordPacks = ['base']
-
+    game.wordPacks[data.pack] = !game.wordPacks[data.pack]
+     // If all options are disabled, re-enable the base pack
+    if (Object.keys(game.wordPacks).every((k) => !game.wordPacks[k])) game.wordPacks.base = true
+    
     game.updateWordPool()
     gameUpdate(room)
     

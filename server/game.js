@@ -17,8 +17,12 @@ const wordses = files.reduce( (map, file) => {
 class Game{
   constructor(){
     this.timerAmount = 61 // Default timer value
-
-    this.wordPacks = ['base'] // Load default word pack
+    // Load default word pack
+    this.wordPacks = Object.keys(wordses).reduce(
+      (obj, key) => {
+        obj[key] = (key==='base');
+        return obj
+      }, {})
     this.updateWordPool()
 
     this.init();
@@ -151,7 +155,11 @@ class Game{
   }
 
   updateWordPool(){
-    let pool = this.wordPacks.reduce( (deck, pack) => deck.concat(wordses[pack]), [])
+    let pool = Object.keys(this.wordPacks).reduce(
+      (deck, pack) => this.wordPacks[pack]
+        ? deck.concat(wordses[pack])
+        : deck,
+      [])
     this.words = pool
   }
 
