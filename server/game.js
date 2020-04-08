@@ -7,7 +7,7 @@ const wordsPath = path.join(__dirname, 'words')
 
 // Load words into object
 const files = fs.readdirSync(wordsPath)
-const wordses = files.reduce( (map, file) => {
+const words = files.reduce( (map, file) => {
     jsonWords = JSON.parse(fs.readFileSync(path.join(wordsPath, file)))
     map[jsonWords.name] = jsonWords.words
     return map
@@ -18,7 +18,7 @@ class Game{
   constructor(){
     this.timerAmount = 61 // Default timer value
     // Load default word pack
-    this.wordPacks = Object.keys(wordses).reduce(
+    this.wordPacks = Object.keys(words).reduce(
       (obj, key) => {
         obj[key] = (key==='base');
         return obj
@@ -157,7 +157,7 @@ class Game{
   updateWordPool(){
     let pool = Object.keys(this.wordPacks).reduce(
       (deck, pack) => this.wordPacks[pack]
-        ? deck.concat(wordses[pack])
+        ? deck.concat(words[pack])
         : deck,
       [])
     this.words = pool
