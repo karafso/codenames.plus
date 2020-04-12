@@ -1,5 +1,8 @@
 {
     "name": "undercover",
+    "language": "EN",
+    "label": "Undercover Pack (NSFW)",
+    "nsfw": true,
     "words": [
         "HORSE",
         "ALCOHOL",

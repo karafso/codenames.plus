@@ -317,10 +317,10 @@ function updatePacks(game){
       btn = document.createElement("BUTTON")
       btn.setAttribute('id', pack)
       btn.onclick = () => {socket.emit('changeCards', {pack: pack})}
-      btn.innerHTML = pack
+      btn.innerHTML = game.wordPacks[pack].label
       cardPacks.appendChild(btn)
     }
-    if (game.wordPacks[pack]) btn.className = 'enabled'
+    if (game.wordPacks[pack].enabled) btn.className = 'enabled'
     else btn.className = ''
   } )
   document.getElementById('word-pool').innerHTML = "Word Pool: " + game.words.length

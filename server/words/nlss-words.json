@@ -1,5 +1,8 @@
 {
     "name": "nlss",
+    "language": "EN",
+    "label": "NLSS Pack",
+    "nsfw": false,
     "words": [
         "OMEGA",
         "SCUM",

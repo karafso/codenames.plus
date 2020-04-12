@@ -1,5 +1,8 @@
 {
     "name": "duet",
+    "language": "EN",
+    "label": "Duet Pack",
+    "nsfw": false,
     "words": [
         "DRUM",
         "NOSE",

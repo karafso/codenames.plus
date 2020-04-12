@@ -1,5 +1,8 @@
 {
     "name": "base",
+    "language": "EN",
+    "label": "Base Pack",
+    "nsfw": false,
     "words": [
         "AFRICA",
         "AGENT",
