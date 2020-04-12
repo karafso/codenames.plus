@@ -42,10 +42,7 @@ let buttonModeTimed = document.getElementById('mode-timed')
 let buttonAbout = document.getElementById('about-button')
 let buttonAfk = document.getElementById('not-afk')
 let buttonServerMessageOkay = document.getElementById('server-message-okay')
-let buttonBasecards = document.getElementById('base-pack')
-let buttonDuetcards = document.getElementById('duet-pack')
-let buttonUndercovercards = document.getElementById('undercover-pack')
-let buttonNLSScards = document.getElementById('nlss-pack')
+let cardPacks = document.getElementById('card-packs')
 // Slider
 let timerSlider = document.getElementById('timer-slider')
 let timerSliderLabel = document.getElementById('timer-slider-label')
@@ -159,22 +156,6 @@ buttonAbout.onclick = () => {
     overlay.style.display = 'none'
     buttonAbout.className = 'above'
   }
-}
-// User Clicks card pack
-buttonBasecards.onclick = () => {
-  socket.emit('changeCards', {pack:'base'})
-}
-// User Clicks card pack
-buttonDuetcards.onclick = () => {
-  socket.emit('changeCards', {pack:'duet'})
-}
-// User Clicks card pack
-buttonUndercovercards.onclick = () => {
-  socket.emit('changeCards', {pack:'undercover'})
-}
-// User Clicks card pack
-buttonNLSScards.onclick = () => {
-  socket.emit('changeCards', {pack:'nlss'})
 }
 
 // When the slider is changed
@@ -330,14 +311,18 @@ function updateTimerSlider(game, mode){
 
 // Update the pack toggle buttons
 function updatePacks(game){
-  if (game.wordPacks.base) buttonBasecards.className = 'enabled'
-  else buttonBasecards.className = ''
-  if (game.wordPacks.duet) buttonDuetcards.className = 'enabled'
-  else buttonDuetcards.className = ''
-  if (game.wordPacks.undercover) buttonUndercovercards.className = 'enabled'
-  else buttonUndercovercards.className = ''
-  if (game.wordPacks.nlss) buttonNLSScards.className = 'enabled'
-  else buttonNLSScards.className = ''
+  Object.keys(game.wordPacks).forEach((pack) => {
+    let btn = document.getElementById(pack)
+    if (!btn) {
+      btn = document.createElement("BUTTON")
+      btn.setAttribute('id', pack)
+      btn.onclick = () => {socket.emit('changeCards', {pack: pack})}
+      btn.innerHTML = pack
+      cardPacks.appendChild(btn)
+    }
+    if (game.wordPacks[pack]) btn.className = 'enabled'
+    else btn.className = ''
+  } )
   document.getElementById('word-pool').innerHTML = "Word Pool: " + game.words.length
 }
 
