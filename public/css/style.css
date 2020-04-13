@@ -14,7 +14,7 @@ Grey: #D6D2C9
 @media(max-width: 1600px){
   #board .row .tile{
     height: 90px !important;
-    font-size: 18px;
+    font-size: 18px !important;
   }
 
   #content {
@@ -26,18 +26,18 @@ Grey: #D6D2C9
   }
 }
 
-@media(max-width: 1100px){
+@media(max-width: 1300px){
 
   #app {
-    width: 950px !important;
+    width: 100% !important;
   }
   #content {
-    width: 950px !important;
+    width: 95% !important;
   }
 
   #left {
     position: relative;
-    width: 950px !important;
+    width: 100% !important;
   }
 
   #players {
@@ -57,11 +57,17 @@ Grey: #D6D2C9
   }
 }
 
+@media(max-width: 750px){
+  #board .row .tile {
+    font-size: 15px
+  }
+}
+
 #donate {
   position: absolute;
   top: 0; 
   display: block;
-  width: 100vw;
+  width: 100%;
   text-align: center;
   font-size: 14px;
   padding: 1px;
@@ -109,7 +115,6 @@ Grey: #D6D2C9
 
 body {
   margin: 0;
-  margin-top: 32px;
   background: #323032;
   color: #323032;
   font-family: 'Changa', sans-serif;
