@@ -1,49 +1,40 @@
 
-let fs = require('fs')
-let readline = require('readline')
+const fs = require('fs')
+const path = require('path')
 
-// Load base words into an array
-let basewords = []
-var filename = './server/words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {basewords.push(line)})
+// Specify where we store our word files
+const wordsPath = path.join(__dirname, 'words')
 
-// Load NLSS words into an array
-let nlsswords = []
-filename = './server/nlss-words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {nlsswords.push(line)})
-
-// Load Duet words into an array
-let duetwords = []
-filename = './server/duet-words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {duetwords.push(line)})
-
-// Load Undercover words into an array
-let undercoverwords = []
-filename = './server/undercover-words.txt'
-readline.createInterface({
-    input: fs.createReadStream(filename),
-    terminal: false
-}).on('line', (line) => {undercoverwords.push(line)})
+// Load words into object
+const files = fs.readdirSync(wordsPath)
+const words = files.reduce( (map, file) => {
+    let jsonWords = JSON.parse(fs.readFileSync(path.join(wordsPath, file)))
+    let obj =
+    {
+      label: jsonWords.label,
+      language: jsonWords.language,
+      words: jsonWords.words
+    }
+    map[jsonWords.name] = obj
+    return map
+  }, {} )
 
 // Codenames Game
 class Game{
   constructor(){
     this.timerAmount = 61 // Default timer value
-
-    this.words = basewords  // Load default word pack
-    this.base = true
-    this.duet = false
-    this.undercover = false
-    this.nlss = false
+    // Load default word pack
+    this.wordPacks = Object.keys(words).reduce(
+      (deck, pack) => {
+        let obj = 
+        {
+          label: words[pack].label,
+          enabled: pack === 'base'
+        }
+        deck[pack] = obj
+        return deck
+      }, {})
+    this.updateWordPool()
 
     this.init();
 
@@ -175,11 +166,11 @@ class Game{
   }
 
   updateWordPool(){
-    let pool = []
-    if (this.base) pool = pool.concat(basewords)
-    if (this.duet) pool = pool.concat(duetwords)
-    if (this.undercover) pool = pool.concat(undercoverwords)
-    if (this.nlss) pool = pool.concat(nlsswords)
+    let pool = Object.keys(this.wordPacks).reduce(
+      (deck, pack) => this.wordPacks[pack].enabled
+        ? deck.concat(words[pack].words)
+        : deck,
+      [])
     this.words = pool
   }
 

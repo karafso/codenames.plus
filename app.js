@@ -204,18 +204,11 @@ io.sockets.on('connection', function(socket){
     if (!PLAYER_LIST[socket.id]) return // Prevent Crash
     let room = PLAYER_LIST[socket.id].room  // Get the room the client was in
     let game = ROOM_LIST[room].game
-    if(data.pack === 'base'){               // Toggle packs in the game
-      game.base = !game.base
-    } else if (data.pack === 'duet'){
-      game.duet = !game.duet
-    } else if (data.pack === 'undercover'){
-      game.undercover = !game.undercover
-    } else if (data.pack === 'nlss'){
-      game.nlss = !game.nlss
-    }
-    // If all options are disabled, re-enable the base pack
-    if (!game.base && !game.duet && !game.undercover && !game.nlss) game.base = true
-
+    let pack = game.wordPacks[data.pack]
+    pack.enabled = !pack.enabled
+     // If all options are disabled, re-enable the base pack
+    if (Object.keys(game.wordPacks).every((k) => !game.wordPacks[k].enabled)) game.wordPacks.base.enabled = true
+    
     game.updateWordPool()
     gameUpdate(room)
     
